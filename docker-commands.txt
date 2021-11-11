@@ -13,7 +13,13 @@ docker cp *containername*:/opt/test.txt . :#from container test.txt copy to loca
 docker commit *id or name of container* *name of the image* #creates image snapshot of the running container
 docker run --rm ti *image* bash # container gets removed once exited
 docker info | grep -i root #Docker root Dir info
+docker run -d -v /mnt/mysql:/var/lib/mysql --name mysql -e "MYSQL_ROOT_PASSWORD=password" mysql:5.7 # docker creates volume on /mnt/mysql and maps var/lib/mysql folder on container. Once container dies all information is saved on /mnt/mysql host machine 
+docker volume create *name* #create a volume
+docker volume ls # lists available volumes
+
+
 
 
 Container State is always taken from the image
+
 
