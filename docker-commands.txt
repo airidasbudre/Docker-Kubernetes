@@ -16,10 +16,34 @@ docker info | grep -i root #Docker root Dir info
 docker run -d -v /mnt/mysql:/var/lib/mysql --name mysql -e "MYSQL_ROOT_PASSWORD=password" mysql:5.7 # docker creates volume on /mnt/mysql and maps var/lib/mysql folder on container. Once container dies all information is saved on /mnt/mysql host machine 
 docker volume create *name* #create a volume
 docker volume ls # lists available volumes
+docker volume ls -f=dangling=true #not associated to any containers
+docker volume rm $(docker volume ls -f=dangling=true -q) #remove all dangling volumes
+
+networking
+
+ip a #list all networks
+dp a | grep docker # list all docker network
+docker network ls #list available docker networks
+docker network inspect *name of the network* #more information about docker network
+docker network create -d bridge --subnet 172.16.0.0/16 --gateway 172.18.0.1 new_network #creates new_network network with provided subnet and gateway
+docker network rm new_network #remove network
+docker run -dti --network test_network --ip *ip* --name test centos #static IP creation for container
+docker run --rm -ti --network host centos bash #creates same network as local machine host
+
+docker compose structure
+version:
+services:
+volumes:
+networks:
 
 
-
-
+host network - same network as your local machine
+bridge network - default network
+Gateway: 
+Subnet: 
+docker0 interface with default networks are created when docker is installed 
+by default network containers can be accessed only by IP
 Container State is always taken from the image
+By created network you can ping containers by their name and IP
 
 
